@@ -1,20 +1,19 @@
-const readline = require('readline');
-const {addUser} = require('../storage');
+const {prompt} = require('../prompt');
+const {getUser, addUser} = require('../storage');
 
-function add(name) {
-  return new Promise(resolve => {
-    const rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout
-    });
-    rl.question('Enter token: ', token => {
-      rl.close();
-      resolve(token);
-    });
-  })
+function add(name, options) {
+  const user = getUser(name);
+  if (user) {
+    console.log('User already exists.');
+    return;
+  }
+
+  return Promise.resolve(options.token)
   .then(token => {
-    addUser(name, {token});
-  });
+    if (token) return token;
+    return prompt('Token:');
+  })
+  .then(token => addUser(name, {token}));
 }
 
 module.exports = {

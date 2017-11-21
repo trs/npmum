@@ -1,18 +1,28 @@
+const columnify = require('columnify');
 const {getUsers} = require('../storage');
 
 function ls() {
   const users = getUsers();
-  const usernames = Object.keys(users);
+  const names = Object.keys(users);
 
-  if (!usernames.length) {
-    process.stdout.write('Empty :)\n');
+  if (!names.length) {
+    console.log('No users added yet!');
     return;
   }
 
-  process.stdout.write('List:\n');
-  usernames.forEach(username => {
-    process.stdout.write(`${username}\n`);
+  const nameData = names.map(name => {
+    const user = users[name];
+    const token = user.token;
+    const tokenLastEight = token.substr(token.length - 8);
+    const censoredToken = `...${tokenLastEight}`;
+
+    return {
+      name,
+      token: censoredToken
+    };
   });
+  const nameColumnData = columnify(nameData);
+  console.log(nameColumnData);
 }
 
 module.exports = {
