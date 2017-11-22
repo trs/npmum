@@ -1,5 +1,13 @@
-const {getUser} = require('../storage');
 const fs = require('fs');
+const storage = require('../storage');
+const errors = require('../errors');
+
+const use = {
+  handle,
+
+  _readNpmrc,
+  _writeNpmrc
+};
 
 function _readNpmrc(path) {
   return new Promise((resolve, reject) => {
@@ -20,25 +28,27 @@ function _writeNpmrc(path, text) {
   });
 }
 
-function use(name) {
-  const user = getUser(name);
-  if (!user) {
-    console.log('User does not exist.');
-    return;
-  }
-
+function handle(name) {
+  const user = storage.getUser(name);
   const npmrcPath = `${require('os').homedir()}/.npmrc`;
 
-  return _readNpmrc(npmrcPath)
+  return Promise.resolve()
+  .then(() => {
+    if (!user) throw new errors.UserNotFound();
+    if (!user.token) throw new errors.InvalidUserToken();
+
+    return use._readNpmrc(npmrcPath);
+  })
   .then(text => {
     const regexp = /(_authToken=)(.*)/i;
     const updatedText = text.replace(regexp, `$1${user.token}`);
-    return _writeNpmrc(npmrcPath, updatedText);
-  });
+    return use._writeNpmrc(npmrcPath, updatedText);
+  })
+  .then(() => {
+    console.log(`Now using ${name}.`);
+    return true;
+  })
+  .catch(errors.handle);
 }
 
-module.exports = {
-  use,
-  _readNpmrc,
-  _writeNpmrc
-};
+module.exports = use;
