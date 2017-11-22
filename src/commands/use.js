@@ -1,7 +1,7 @@
 const {getUser} = require('../storage');
 const fs = require('fs');
 
-function readNpmrc(path) {
+function _readNpmrc(path) {
   return new Promise((resolve, reject) => {
     fs.readFile(path, (err, data) => {
       if (err) return reject(err);
@@ -11,7 +11,7 @@ function readNpmrc(path) {
   .then(text => text.toString());
 }
 
-function writeNpmrc(path, text) {
+function _writeNpmrc(path, text) {
   return new Promise((resolve, reject) => {
     fs.writeFile(path, text, err => {
       if (err) return reject(err);
@@ -29,14 +29,16 @@ function use(name) {
 
   const npmrcPath = `${require('os').homedir()}/.npmrc`;
 
-  return readNpmrc(npmrcPath)
+  return _readNpmrc(npmrcPath)
   .then(text => {
     const regexp = /(_authToken=)(.*)/i;
     const updatedText = text.replace(regexp, `$1${user.token}`);
-    return writeNpmrc(npmrcPath, updatedText);
+    return _writeNpmrc(npmrcPath, updatedText);
   });
 }
 
 module.exports = {
-  use
+  use,
+  _readNpmrc,
+  _writeNpmrc
 };

@@ -16,7 +16,7 @@
       {
         "terms": ["todo", "fixme", "xxx"],
         "location": "start"
-      },
+      }
     ],
     "object-curly-spacing": [
       2,
