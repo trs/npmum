@@ -1,7 +1,13 @@
-# npmum
-> NPM User Manager
+<p align="center">
+  <img alt="npmum" src="logo.svg" width="395" />
+</p>
 
-Easily manage multiple npm user logins.
+<p align="center">
+  Easily manage multiple npm user logins.
+</p>
+
+----
+
 
 ## Install
 
