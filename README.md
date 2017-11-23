@@ -1,18 +1,25 @@
 <p align="center">
-  <img alt="npmum" src="logo.svg" width="395" />
+  <img alt="npmum" src="logo.svg" width="340" />
 </p>
 
+<h3 align="center">Easily manage multiple npm user logins</h3>
+
 <p align="center">
-  Easily manage multiple npm user logins.
+  <img alt="version" src="https://badge.fury.io/js/npmum.svg" />
 </p>
 
 ----
 
+## Synopsis
+
+`npmum` is a command line tool to manage your npm login user.
+
+By storing tokens under a username alias, the token in `~/.npmrc` will be updated based on the username.
 
 ## Install
 
 ```
-npm install npmum -g
+$ npm install npmum -g
 ```
 
 ## Usage
@@ -23,7 +30,7 @@ Will prompt you for a token to add under the name alias.
 You can also provide the token via `-t`/`--token`.
 
 ```
-npmum add <user>[ --token <token>]
+$ npmum add <user>[ --token <token>]
 ```
 
 ### Use
@@ -31,7 +38,7 @@ npmum add <user>[ --token <token>]
 Use the provided user.
 
 ```
-npmum use <user>
+$ npmum use <user>
 ```
 
 ### Remove
@@ -39,7 +46,7 @@ npmum use <user>
 Remove a user from the config.
 
 ```
-npmum rm <user>
+$ npmum rm <user>
 ```
 
 ### List
@@ -47,10 +54,6 @@ npmum rm <user>
 List users and their truncated tokens.
 
 ```
-npmum ls
+$ npmum ls
 ```
 
-
-## What
-
-`npmum` stores tokens under a username alias and updates `~/.npmrc` based on the set user.
