@@ -9,6 +9,8 @@ describe('ls', function () {
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
+
+    sandbox.stub(storage, 'getCurrentUser').returns(null);
   });
   afterEach(() => {
     sandbox.restore();
@@ -23,10 +25,12 @@ describe('ls', function () {
       const mappedUsers = ls._mapUserTokens(users);
       expect(mappedUsers).to.eql([{
         name: 'test',
-        token: '123'
+        token: '123',
+        current: ''
       }, {
         name: 'other',
-        token: '...34567890'
+        token: '...34567890',
+        current: ''
       }]);
     });
   });
