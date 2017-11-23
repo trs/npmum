@@ -6,6 +6,8 @@ const conf = new ConfigStore(confName);
 const storage = {
   _path: conf.path,
 
+  getCurrentUser,
+  setCurrentUser,
   getUsers,
   getUser,
   setUsers,
@@ -13,6 +15,13 @@ const storage = {
   removeUser
 };
 
+function getCurrentUser() {
+  return conf.get('current_user') || null;
+}
+
+function setCurrentUser(user) {
+  conf.set('current_user', user);
+}
 
 function setUsers(users) {
   conf.set('users', users);
