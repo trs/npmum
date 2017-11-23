@@ -45,7 +45,8 @@ function handle(name) {
     return use._writeNpmrc(npmrcPath, updatedText);
   })
   .then(() => {
-    console.log(`Now using ${name}.`);
+    storage.setCurrentUser(name);
+    console.log(`NPM login user: ${name}.`);
     return true;
   })
   .catch(errors.handle);
