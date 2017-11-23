@@ -1,6 +1,18 @@
 const ConfigStore = require('configstore');
 const {name: packageName} = require('../package.json');
-const conf = new ConfigStore(packageName);
+const confName = `${packageName}${process.env.NODE_ENV !== 'test' ? '' : '-test'}`;
+const conf = new ConfigStore(confName);
+
+const storage = {
+  _path: conf.path,
+
+  getUsers,
+  getUser,
+  setUsers,
+  addUser,
+  removeUser
+};
+
 
 function setUsers(users) {
   conf.set('users', users);
@@ -15,27 +27,22 @@ function getUser(name) {
 }
 
 function addUser(name, data = {}) {
-  const users = getUsers();
+  const users = storage.getUsers();
   // if (users[name]) return false;
 
   users[name] = data;
-  setUsers(users);
+  storage.setUsers(users);
   return true;
 }
 
 function removeUser(name) {
-  const users = getUsers();
+  const users = storage.getUsers();
   if (!users[name]) return false;
 
   delete users[name];
-  setUsers(users);
+  storage.setUsers(users);
   return true;
 }
 
-module.exports = {
-  getUsers,
-  getUser,
-  setUsers,
-  addUser,
-  removeUser
-};
+
+module.exports = storage;

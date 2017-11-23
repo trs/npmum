@@ -1,7 +1,11 @@
 const {spawn} = require('child_process');
 // const {addUser} = require('../storage');
 
-function login() {
+const login = {
+  handle
+};
+
+function handle() {
   const cmd = spawn('npm', ['login']);
 
   process.stdin.pipe(cmd.stdin);
@@ -14,6 +18,4 @@ function login() {
   });
 }
 
-module.exports = {
-  login
-};
+module.exports = login;

@@ -1,21 +1,21 @@
 const {prompt} = require('../prompt');
-const {getUser, addUser} = require('../storage');
+const storage = require('../storage');
+const errors = require('../errors');
 
-function add(name, options) {
-  const user = getUser(name);
-  if (user) {
-    console.log('User already exists.');
-    return;
-  }
+const add = {
+  handle
+};
 
+function handle(name, options = {}) {
   return Promise.resolve(options.token)
   .then(token => {
+    const user = storage.getUser(name);
+    if (user) throw new Error('User already exists.');
     if (token) return token;
     return prompt('Token:');
   })
-  .then(token => addUser(name, {token}));
+  .then(token => storage.addUser(name, {token: token.trim()}))
+  .catch(errors.handle);
 }
 
-module.exports = {
-  add
-};
+module.exports = add;

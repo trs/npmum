@@ -1,30 +1,37 @@
 const columnify = require('columnify');
-const {getUsers} = require('../storage');
+const storage = require('../storage');
 
-function ls() {
-  const users = getUsers();
-  const names = Object.keys(users);
+const ls = {
+  handle,
 
-  if (!names.length) {
-    console.log('No users added yet!');
-    return;
-  }
+  _mapUserTokens
+};
 
-  const nameData = names.map(name => {
+function _mapUserTokens(users) {
+  return Object.keys(users).map(name => {
     const user = users[name];
     const token = user.token;
-    const tokenLastEight = token.substr(token.length - 8);
-    const censoredToken = `...${tokenLastEight}`;
+    const censoredToken = token.length > 8 ? `...${token.substr(token.length - 8)}` : token;
 
     return {
       name,
       token: censoredToken
     };
   });
-  const nameColumnData = columnify(nameData);
-  console.log(nameColumnData);
 }
 
-module.exports = {
-  ls
-};
+function handle() {
+  const users = storage.getUsers();
+
+  if (!Object.keys(users).length) {
+    console.log('No users added yet!');
+    return false;
+  }
+
+  const nameData = ls._mapUserTokens(users);
+  const columns = columnify(nameData);
+  console.log(columns);
+  return true;
+}
+
+module.exports = ls;

@@ -1,15 +1,13 @@
-const {getUser, removeUser} = require('../storage');
+const storage = require('../storage');
 
-function rm(name) {
-  const user = getUser(name);
-  if (!user) {
-    console.log('User does not exist.');
-    return;
-  }
+const rm = {
+  handle
+};
 
-  return removeUser(name);
+function handle(name) {
+  const success = storage.removeUser(name);
+  if (!success) console.log('User does not exist.');
+  return success;
 }
 
-module.exports = {
-  rm
-};
+module.exports = rm;
