@@ -16,6 +16,9 @@
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "commitmsg": "validate-commit-msg"
   },
+  "release": {
+    "verifyConditions": "condition-circle"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/trs/npmum.git"
@@ -32,6 +35,7 @@
   },
   "devDependencies": {
     "chai": "^4.1.2",
+    "condition-circle": "^1.5.0",
     "eslint": "^4.11.0",
     "eslint-plugin-mocha": "^4.11.0",
     "eslint-plugin-node": "^5.2.1",
