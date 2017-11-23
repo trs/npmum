@@ -68,10 +68,10 @@ workflows:
       - test:
           requires:
             - build
-      # - release:
-      #     requires:
-      #       - lint
-      #       - test
+      - release:
+          requires:
+            - lint
+            - test
 
   build_and_test:
     jobs:
