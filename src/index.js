@@ -1,12 +1,16 @@
 const program = require('commander');
+const updateNotifier = require('update-notifier');
 
-const {version} = require('../package.json');
+const {name, version} = require('../package.json');
 
 const ls = require('./commands/ls');
 const rm = require('./commands/rm');
 const use = require('./commands/use');
 const add = require('./commands/add');
 // const {login} = require('./commands/login');
+
+updateNotifier({pkg: {name, version}, updateCheckInterval: 1000 * 60 * 60 * 6})
+  .notify({isGlobal: true});
 
 function setup(argv) {
   program.version(version);
