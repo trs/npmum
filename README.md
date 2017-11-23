@@ -1,10 +1,12 @@
 <p align="center">
   <a href="https://github.com/trs/npmum">
-    <img alt="npmum" src="logo.svg" width="340" />
+    <img alt="npmum" src="https://cdn.rawgit.com/trs/npmum/66657286/logo.svg" width="340" />
   </a>
 </p>
 
-<h3 align="center">Easily manage multiple npm user logins</h3>
+<p align="center">
+  Easily manage multiple npm user logins
+</p>
 
 <p align="center">
   <a href="https://www.npmjs.com/package/npmum">
