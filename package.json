@@ -9,12 +9,11 @@
   ],
   "bin": "bin/npmum.js",
   "scripts": {
-    "test": "NODE_ENV=test mocha --opts .config/mocha.opts",
+    "test": "NODE_ENV=test mocha --opts ./.config/mocha.opts",
     "test:watch": "npm run test -- -w",
-    "lint": "eslint -c .config/eslintrc.json \"src/**/*.js\" \"test/**/*.js\" \"bin/**/*.js\"",
-    "lint:fix": "eslint --fix -c .config/eslintrc.json \"src/**/*.js\" \"test/**/*.js\" \"bin/**/*.js\"",
+    "lint": "eslint -c ./.config/eslintrc.json \"src/**/*.js\" \"test/**/*.js\" \"bin/**/*.js\"",
+    "lint:fix": "eslint --fix -c ./.config/eslintrc.json \"src/**/*.js\" \"test/**/*.js\" \"bin/**/*.js\"",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
-
     "commitmsg": "validate-commit-msg"
   },
   "repository": {
