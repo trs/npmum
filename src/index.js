@@ -2,10 +2,10 @@ const program = require('commander');
 
 const {version} = require('../package.json');
 
-const {ls} = require('./commands/ls');
-const {rm} = require('./commands/rm');
-const {use} = require('./commands/use');
-const {add} = require('./commands/add');
+const ls = require('./commands/ls');
+const rm = require('./commands/rm');
+const use = require('./commands/use');
+const add = require('./commands/add');
 // const {login} = require('./commands/login');
 
 function setup(argv) {
@@ -18,19 +18,19 @@ function setup(argv) {
   program.command('add <name>')
     .description('Add token with name')
     .option('-t, --token <token>', 'Set token via command')
-    .action(add);
+    .action(add.handle);
 
   program.command('ls')
     .description('List token names')
-    .action(ls);
+    .action(ls.handle);
 
   program.command('rm')
     .description('Remove token by name')
-    .action(rm);
+    .action(rm.handle);
 
   program.command('use <name>')
     .description('Use token by name')
-    .action(use);
+    .action(use.handle);
 
   program.parse(argv);
 }
