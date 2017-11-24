@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/trs/npmum">
-    <img alt="npmum" src="https://cdn.rawgit.com/trs/npmum/66657286/logo.svg" width="340" />
+    <img alt="npmum" src="https://cdn.rawgit.com/trs/npmum/2d05a385/logo.svg" width="340" />
   </a>
 </p>
 
