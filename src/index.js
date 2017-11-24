@@ -37,6 +37,8 @@ function setup(argv) {
     .action(use.handle);
 
   program.parse(argv);
+
+  if (!process.argv.slice(2).length) program.outputHelp();
 }
 
 module.exports = setup;
