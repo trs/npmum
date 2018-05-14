@@ -7,7 +7,6 @@ const ls = require('./commands/ls');
 const rm = require('./commands/rm');
 const use = require('./commands/use');
 const add = require('./commands/add');
-// const {login} = require('./commands/login');
 
 updateNotifier({pkg: {name, version}, updateCheckInterval: 1000 * 60 * 60 * 6})
   .notify({isGlobal: true});
@@ -15,25 +14,22 @@ updateNotifier({pkg: {name, version}, updateCheckInterval: 1000 * 60 * 60 * 6})
 function setup(argv) {
   program.version(version);
 
-  // program.command('login')
-  //   .description('Add user via npm login')
-  //   .action(login);
-
   program.command('add <name>')
-    .description('Add token with name')
+    .description('Add a user alias to an npm token')
     .option('-t, --token <token>', 'Set token via command')
     .action(add.handle);
 
   program.command('ls')
-    .description('List token names')
+    .description('List user tokens and the current user')
     .action(ls.handle);
 
   program.command('rm')
-    .description('Remove token by name')
+    .description('Remove user token by name')
     .action(rm.handle);
 
   program.command('use <name>')
-    .description('Use token by name')
+    .description('Use user token by name')
+    .option('-p, --path <path>', 'Specify path to .npmrc')
     .action(use.handle);
 
   program.parse(argv);

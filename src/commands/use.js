@@ -28,25 +28,32 @@ function _writeNpmrc(path, text) {
   });
 }
 
-function handle(name) {
+function handle(name, options = {}) {
   const user = storage.getUser(name);
-  const npmrcPath = `${require('os').homedir()}/.npmrc`;
+  const npmrcPath = options.path || `${require('os').homedir()}/.npmrc`;
 
   return Promise.resolve()
   .then(() => {
     if (!user) throw new errors.UserNotFound();
     if (!user.token) throw new errors.InvalidUserToken();
 
+    if (!fs.existsSync(npmrcPath)) return '';
     return use._readNpmrc(npmrcPath);
   })
   .then(text => {
     const regexp = /(_authToken=)(.*)/i;
-    const updatedText = text.replace(regexp, `$1${user.token}`);
-    return use._writeNpmrc(npmrcPath, updatedText);
+    if (regexp.test(text)) {
+      const updateText = text.replace(regexp, `$1${user.token}`);
+      return updateText;
+    }
+
+    const setNewText = `//registry.npmjs.org/:_authToken=${user.token}`;
+    return setNewText;
   })
+  .then(text => use._writeNpmrc(npmrcPath, text))
   .then(() => {
     storage.setCurrentUser(name);
-    console.log(`NPM login user: ${name}.`);
+    console.log(`Set npm login user: "${name}".`);
     return true;
   })
   .catch(errors.handle);

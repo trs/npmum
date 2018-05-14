@@ -1,7 +1,7 @@
 function handle(err) {
   const message = err.message || 'Unknown error';
   const code = err.code || 1;
-  console.log(message);
+  console.error(message);
 
   process.exitCode = code;
   return false;
