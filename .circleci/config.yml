@@ -46,12 +46,9 @@ jobs:
       - checkout
       - restore_cache:
           key: npm-install-{{ checksum "package.json" }}
-      - run:
-          name: Update NPM
-          command: npm install semantic-release@latest
       - deploy:
           name: Semantic Release
-          command: npm run semantic-release || true
+          command: npx semantic-release@15
 
 workflows:
   version: 2
@@ -79,7 +76,7 @@ workflows:
           filters:
             branches:
               ignore: master
-      - lint: 
+      - lint:
           requires:
             - build
       - test:

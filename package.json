@@ -13,7 +13,6 @@
     "test:watch": "npm run test -- -w",
     "lint": "eslint -c ./.config/eslintrc.json \"src/**/*.js\" \"test/**/*.js\" \"bin/**/*.js\"",
     "lint:fix": "eslint --fix -c ./.config/eslintrc.json \"src/**/*.js\" \"test/**/*.js\" \"bin/**/*.js\"",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "commitmsg": "validate-commit-msg"
   },
   "release": {
@@ -42,7 +41,7 @@
     "husky": "^0.14.3",
     "mocha": "^4.0.1",
     "mock-stdin": "^0.3.1",
-    "semantic-release": "^8.2.0",
+    "semantic-release": "^15.4.1",
     "sinon": "^4.1.2",
     "validate-commit-msg": "^2.14.0"
   },
