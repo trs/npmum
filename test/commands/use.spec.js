@@ -44,4 +44,21 @@ describe('use', function () {
       expect(use._writeNpmrc.firstCall.args[1]).to.equal('//registry.npmjs.org/:_authToken=new-cool-token');
     });
   });
+
+  describe('._resolveNpmrcPath', () => {
+    it('test', () => {
+      const path = use._resolveNpmrcPath({path: '/test/.npmrc'});
+      expect(path).to.equal('/test/.npmrc');
+    });
+
+    it('test', () => {
+      const path = use._resolveNpmrcPath({path: '/test'});
+      expect(path).to.equal('/test/.npmrc');
+    });
+
+    it('test', () => {
+      const path = use._resolveNpmrcPath({path: '/test/'});
+      expect(path).to.equal('/test/.npmrc');
+    });
+  });
 });

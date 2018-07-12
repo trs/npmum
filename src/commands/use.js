@@ -1,6 +1,9 @@
 const fs = require('fs');
+const nodePath = require('path');
 const storage = require('../storage');
 const errors = require('../errors');
+
+const NPMRC = '.npmrc';
 
 const use = {
   handle,
@@ -28,9 +31,19 @@ function _writeNpmrc(path, text) {
   });
 }
 
+function _resolveNpmrcPath(options) {
+  let path = `${require('os').homedir()}/${NPMRC}`;
+  if (options.local) path = process.cwd();
+  if (options.path) path = options.path;
+
+  if (nodePath.basename(path) === NPMRC) return path;
+
+  return nodePath.join(path, nodePath.delimiter, NPMRC);
+}
+
 function handle(name, options = {}) {
   const user = storage.getUser(name);
-  const npmrcPath = options.path || `${require('os').homedir()}/.npmrc`;
+  const npmrcPath = _resolveNpmrcPath(options);
 
   return Promise.resolve()
   .then(() => {

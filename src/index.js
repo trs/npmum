@@ -29,8 +29,26 @@ function setup(argv) {
 
   program.command('use <name>')
     .description('Use user token by name')
-    .option('-p, --path <path>', 'Specify path to .npmrc')
+    .option('-p, --path <path>', 'Specify path to a directory to write the .npmrc')
+    .option('--local', 'Write to .npmrc in the current directory')
     .action(use.handle);
+
+  program.on('--help', () => {
+    console.log('');
+    console.log('  Examples:');
+    console.log('');
+    console.log('    $ npmum add my_user_name');
+    console.log('    $ npmum add my_user_name --token 12345');
+    console.log('');
+    console.log('    $ npmum ls');
+    console.log('');
+    console.log('    $ npmum use my_user_name');
+    console.log('    $ npmum use my_user_name -p ~/my/cool/project/');
+    console.log('    $ npmum use my_user_name --local');
+    console.log('');
+    console.log('    $ npmum rm my_user_name');
+    console.log('');
+  });
 
   program.parse(argv);
 
