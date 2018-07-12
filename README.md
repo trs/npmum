@@ -22,7 +22,7 @@
 
 If you've ever needed to publish to npm with multiple users, this tool is for you.
 
-`npmum` stores tokens under a username alias. This allows you to easily switch between users by changing the token in `~/.npmrc` based on the username alias.
+`npmum` stores tokens under a username alias. This allows you to easily switch between users by changing the token in `.npmrc` based on the username alias.
 
 ## Install
 
@@ -43,7 +43,7 @@ $ npm install npmum -g
 
 ### Add
 
-Prompts you for a token to add under the username alias.
+Prompts you for a token to add under the username alias.  
 You can also provide the token via `-t`/`--token`.
 
 ```
@@ -52,11 +52,14 @@ $ npmum add <user>[ --token <token>]
 
 ### Use
 
-Use the token for provided username alias.
+Use the token for provided username alias.  
+You can specify the local of the `.npmrc` with `-p`/`--path`. This defaults to `~/.npmrc`.  
+`--local` with write the a `.npmrc` in the current directory.
 
 ```
-$ npmum use <user>
+$ npmum use <user>[ --path <path>, --local]
 ```
+
 
 ### Remove
 
