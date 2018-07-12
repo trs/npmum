@@ -1,10 +1,9 @@
-const {expect} = require('chai');
 const sinon = require('sinon');
 
 const ls = require('../../src/commands/ls');
 const storage = require('../../src/storage');
 
-describe('ls', function () {
+describe('ls', () => {
   let sandbox;
 
   beforeEach(() => {
@@ -16,14 +15,14 @@ describe('ls', function () {
     sandbox.restore();
   });
 
-  describe('_mapUserTokens', function () {
-    it('truncates user tokens', () => {
+  describe('_mapUserTokens', () => {
+    test('truncates user tokens', () => {
       const users = {
         test: {token: '123'},
         other: {token: '1234567890'}
       };
       const mappedUsers = ls._mapUserTokens(users);
-      expect(mappedUsers).to.eql([{
+      expect(mappedUsers).toEqual([{
         name: 'test',
         token: '123',
         current: ''
@@ -35,20 +34,20 @@ describe('ls', function () {
     });
   });
 
-  it('does not loop through empty array', () => {
+  test('does not loop through empty array', () => {
     sandbox.stub(storage, 'getUsers').returns({});
 
     const success = ls.handle();
-    expect(success).to.equal(false);
+    expect(success).toBe(false);
   });
 
-  it('writes column list of tokens', () => {
+  test('writes column list of tokens', () => {
     sandbox.stub(storage, 'getUsers').returns({
       test: {token: '123'},
       other: {token: '1234567890'}
     });
 
     const success = ls.handle();
-    expect(success).to.equal(true);
+    expect(success).toBe(true);
   });
 });

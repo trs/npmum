@@ -1,45 +1,43 @@
-const {expect} = require('chai');
-
 const storage = require('../src/storage');
 
-describe('storage', function () {
-  after(done => {
+describe('storage', () => {
+  afterAll(done => {
     require('fs').unlink(storage._path, done);
   });
 
-  describe('addUser', function () {
-    it('adds new user', () => {
+  describe('addUser', () => {
+    test('adds new user', () => {
       const success = storage.addUser('test', {data: 1});
-      expect(success).to.equal(true);
+      expect(success).toBe(true);
     });
 
-    it('overrides existing user', () => {
+    test('overrides existing user', () => {
       const success = storage.addUser('test', {data: 2});
-      expect(success).to.equal(true);
+      expect(success).toBe(true);
     });
   });
 
-  describe('getUser', function () {
-    it('returns existing user', () => {
+  describe('getUser', () => {
+    test('returns existing user', () => {
       const user = storage.getUser('test');
-      expect(user).to.eql({data: 2});
+      expect(user).toEqual({data: 2});
     });
 
-    it('returns undefined if user does not exist', () => {
+    test('returns undefined if user does not exist', () => {
       const user = storage.getUser('bad');
-      expect(user).to.equal(undefined);
+      expect(user).toBe(undefined);
     });
   });
 
-  describe('removeUser', function () {
-    it('removes an existing user', () => {
+  describe('removeUser', () => {
+    test('removes an existing user', () => {
       const success = storage.removeUser('test');
-      expect(success).to.equal(true);
+      expect(success).toBe(true);
     });
 
-    it('checks for non existant user', () => {
+    test('checks for non existant user', () => {
       const success = storage.removeUser('bad');
-      expect(success).to.equal(false);
+      expect(success).toBe(false);
     });
   });
 });

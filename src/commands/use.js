@@ -9,7 +9,8 @@ const use = {
   handle,
 
   _readNpmrc,
-  _writeNpmrc
+  _writeNpmrc,
+  _resolveNpmrcPath
 };
 
 function _readNpmrc(path) {
@@ -38,7 +39,7 @@ function _resolveNpmrcPath(options) {
 
   if (nodePath.basename(path) === NPMRC) return path;
 
-  return nodePath.join(path, nodePath.delimiter, NPMRC);
+  return nodePath.join(path, nodePath.sep, NPMRC);
 }
 
 function handle(name, options = {}) {

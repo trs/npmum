@@ -9,8 +9,8 @@
   ],
   "bin": "bin/npmum.js",
   "scripts": {
-    "test": "NODE_ENV=test mocha --opts ./.config/mocha.opts",
-    "test:watch": "npm run test -- -w",
+    "test": "NODE_ENV=test jest test/**/*.spec.js",
+    "test:watch": "npm run test -- --watch",
     "lint": "eslint -c ./.config/eslintrc.json \"src/**/*.js\" \"test/**/*.js\" \"bin/**/*.js\"",
     "lint:fix": "eslint --fix -c ./.config/eslintrc.json \"src/**/*.js\" \"test/**/*.js\" \"bin/**/*.js\"",
     "commitmsg": "validate-commit-msg"
@@ -33,13 +33,11 @@
     "npm": ">3"
   },
   "devDependencies": {
-    "chai": "^4.1.2",
     "condition-circle": "^1.5.0",
     "eslint": "^4.11.0",
-    "eslint-plugin-mocha": "^4.11.0",
     "eslint-plugin-node": "^5.2.1",
     "husky": "^0.14.3",
-    "mocha": "^4.0.1",
+    "jest": "^23.4.0",
     "mock-stdin": "^0.3.1",
     "semantic-release": "^15.4.1",
     "sinon": "^4.1.2",
