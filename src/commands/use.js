@@ -48,7 +48,7 @@ function handle(name, options = {}) {
 
   return Promise.resolve()
   .then(() => {
-    if (!user) throw new errors.UserNotFound();
+    if (!user) throw new errors.UserNotFound(user);
     if (!user.token) throw new errors.InvalidUserToken();
 
     if (!fs.existsSync(npmrcPath)) return '';
@@ -67,7 +67,7 @@ function handle(name, options = {}) {
   .then(text => use._writeNpmrc(npmrcPath, text))
   .then(() => {
     storage.setCurrentUser(name);
-    console.log(`Set npm login user: "${name}".`);
+    console.log(`Using npm user token: "${name}"`);
     return true;
   })
   .catch(errors.handle);

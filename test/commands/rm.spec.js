@@ -2,6 +2,7 @@ const sinon = require('sinon');
 
 const rm = require('../../src/commands/rm');
 const storage = require('../../src/storage');
+const errors = require('../../src/errors');
 
 describe('rm', () => {
   let sandbox;
@@ -27,8 +28,7 @@ describe('rm', () => {
     sandbox.stub(storage, 'getUsers').returns({});
     sandbox.spy(storage, 'setUsers');
 
-    const success = rm.handle('test');
-    expect(success).toBe(false);
+    expect(() => rm.handle('test')).toThrow(errors.UserNotFound);
     expect(storage.setUsers.called).toBe(false);
   });
 });
