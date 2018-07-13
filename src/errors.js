@@ -8,22 +8,22 @@ function handle(err) {
 }
 
 class UserNotFound extends Error {
-  constructor() {
-    super('User not found');
+  constructor(name) {
+    super(`User not found: ${name}`);
     this.code = 404;
   }
 }
 
 class UserAlreadyExists extends Error {
-  constructor() {
-    super('User already exists');
+  constructor(name) {
+    super(`User already exists: ${name}`);
     this.code = 400;
   }
 }
 
 class InvalidUserToken extends Error {
   constructor() {
-    super('User has a non-existant or invalid token');
+    super('User has an invalid token');
     this.code = 500;
   }
 }

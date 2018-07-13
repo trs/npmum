@@ -1,10 +1,10 @@
-const {expect} = require('chai');
 const sinon = require('sinon');
 
 const rm = require('../../src/commands/rm');
 const storage = require('../../src/storage');
+const errors = require('../../src/errors');
 
-describe('rm', function () {
+describe('rm', () => {
   let sandbox;
 
   beforeEach(() => {
@@ -14,22 +14,21 @@ describe('rm', function () {
     sandbox.restore();
   });
 
-  it('removes existing user', () => {
+  test('removes existing user', () => {
     sandbox.stub(storage, 'getUsers').returns({
       test: {}
     });
     sandbox.stub(storage, 'setUsers').returns();
 
     const success = rm.handle('test');
-    expect(success).to.equal(true);
+    expect(success).toBe(true);
   });
 
-  it('does not remove non-existant user', () => {
+  test('does not remove non-existant user', () => {
     sandbox.stub(storage, 'getUsers').returns({});
     sandbox.spy(storage, 'setUsers');
 
-    const success = rm.handle('test');
-    expect(success).to.equal(false);
-    expect(storage.setUsers.called).to.equal(false);
+    expect(() => rm.handle('test')).toThrow(errors.UserNotFound);
+    expect(storage.setUsers.called).toBe(false);
   });
 });

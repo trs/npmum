@@ -10,11 +10,12 @@ function handle(name, options = {}) {
   return Promise.resolve(options.token)
   .then(token => {
     const user = storage.getUser(name);
-    if (user) throw new Error('User already exists.');
+    if (user) throw new errors.UserAlreadyExists(name);
     if (token) return token;
     return prompt('Token:');
   })
   .then(token => storage.addUser(name, {token: token.trim()}))
+  .then(() => console.log(`User added: ${name}`) || true)
   .catch(errors.handle);
 }
 

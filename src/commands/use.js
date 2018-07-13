@@ -1,12 +1,16 @@
 const fs = require('fs');
+const nodePath = require('path');
 const storage = require('../storage');
 const errors = require('../errors');
+
+const NPMRC = '.npmrc';
 
 const use = {
   handle,
 
   _readNpmrc,
-  _writeNpmrc
+  _writeNpmrc,
+  _resolveNpmrcPath
 };
 
 function _readNpmrc(path) {
@@ -28,13 +32,23 @@ function _writeNpmrc(path, text) {
   });
 }
 
+function _resolveNpmrcPath(options) {
+  let path = `${require('os').homedir()}/${NPMRC}`;
+  if (options.local) path = process.cwd();
+  if (options.path) path = options.path;
+
+  if (nodePath.basename(path) === NPMRC) return path;
+
+  return nodePath.join(path, nodePath.sep, NPMRC);
+}
+
 function handle(name, options = {}) {
   const user = storage.getUser(name);
-  const npmrcPath = options.path || `${require('os').homedir()}/.npmrc`;
+  const npmrcPath = _resolveNpmrcPath(options);
 
   return Promise.resolve()
   .then(() => {
-    if (!user) throw new errors.UserNotFound();
+    if (!user) throw new errors.UserNotFound(user);
     if (!user.token) throw new errors.InvalidUserToken();
 
     if (!fs.existsSync(npmrcPath)) return '';
@@ -53,7 +67,7 @@ function handle(name, options = {}) {
   .then(text => use._writeNpmrc(npmrcPath, text))
   .then(() => {
     storage.setCurrentUser(name);
-    console.log(`Set npm login user: "${name}".`);
+    console.log(`Using npm user token: "${name}"`);
     return true;
   })
   .catch(errors.handle);

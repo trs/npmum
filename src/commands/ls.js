@@ -26,7 +26,8 @@ function handle() {
   const currentUser = storage.getCurrentUser();
 
   if (!Object.keys(users).length) {
-    console.log('No users added yet!');
+    console.log('No user tokens added.');
+    console.log('Use `npmum add <name>` to add some.');
     return false;
   }
 
