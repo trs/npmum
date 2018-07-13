@@ -23,7 +23,7 @@ function setup(argv) {
     .description('List user tokens and the current user')
     .action(ls.handle);
 
-  program.command('rm')
+  program.command('rm <name>')
     .description('Remove user token by name')
     .action(rm.handle);
 
