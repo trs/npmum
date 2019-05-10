@@ -44,10 +44,11 @@ $ npm install npmum -g
 ### Add
 
 Prompts you for a token to add under the username alias.  
+A custom registry can be defined using `-r`/`--registry`  
 You can also provide the token via `-t`/`--token`.
 
 ```
-$ npmum add <user>[ --token <token>]
+$ npmum add <user>[ --token <token>][ --registry <url>]
 ```
 
 ### Use
