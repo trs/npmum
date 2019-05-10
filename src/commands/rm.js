@@ -1,5 +1,5 @@
 const storage = require('../storage');
-const errors = require('../errors');
+const {UserNotFound} = require('../errors');
 
 const rm = {
   handle
@@ -7,7 +7,7 @@ const rm = {
 
 function handle(name) {
   if (!storage.removeUser(name)) {
-    throw new errors.UserNotFound(name);
+    throw new UserNotFound(name);
   }
 
   console.log(`User removed: ${name}`);

@@ -16,6 +16,7 @@ function setup(argv) {
 
   program.command('add <name>')
     .description('Add a user alias to an npm token')
+    .option('-r, --registry <url>', 'Specify the registry to login to')
     .option('-t, --token <token>', 'Set token via command')
     .action(add.handle);
 

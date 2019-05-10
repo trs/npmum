@@ -1,4 +1,4 @@
-function handle(err) {
+function handleError(err) {
   const message = err.message || 'Unknown error';
   const code = err.code || 1;
   console.error(message);
@@ -29,7 +29,7 @@ class InvalidUserToken extends Error {
 }
 
 module.exports = {
-  handle,
+  handleError,
 
   UserNotFound,
   InvalidUserToken,
