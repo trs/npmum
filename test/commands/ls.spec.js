@@ -19,16 +19,18 @@ describe('ls', () => {
     test('truncates user tokens', () => {
       const users = {
         test: {token: '123'},
-        other: {token: '1234567890'}
+        other: {token: '1234567890', registry: 'registry.test.url'}
       };
       const mappedUsers = ls._mapUserTokens(users);
       expect(mappedUsers).toEqual([{
         name: 'test',
         token: '123',
+        registry: storage.DEFAULT_REGISTRY,
         current: ''
       }, {
         name: 'other',
         token: '...34567890',
+        registry: 'registry.test.url',
         current: ''
       }]);
     });

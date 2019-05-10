@@ -31,7 +31,7 @@ describe('use', () => {
     });
   });
 
-  test('updates .npmrc', () => {
+  test.only('updates .npmrc with token', () => {
     sandbox.stub(storage, 'getUser').returns({token: 'new-cool-token'});
 
     sandbox.stub(use, '_readNpmrc').resolves('//registry.npmjs.org/:_authToken=super-awesome-fake-token');
@@ -41,6 +41,19 @@ describe('use', () => {
     .then(success => {
       expect(success).toBe(true);
       expect(use._writeNpmrc.firstCall.args[1]).toBe('//registry.npmjs.org/:_authToken=new-cool-token');
+    });
+  });
+
+  test('updates .npmrc with new registry', () => {
+    sandbox.stub(storage, 'getUser').returns({token: 'new-cool-token', registry: 'registry.test.url'});
+
+    sandbox.stub(use, '_readNpmrc').resolves('//registry.npmjs.org/:_authToken=super-awesome-fake-token');
+    sandbox.stub(use, '_writeNpmrc').resolves();
+
+    return use.handle('test')
+    .then(success => {
+      expect(success).toBe(true);
+      expect(use._writeNpmrc.firstCall.args[1]).toBe('//registry.test.url/:_authToken=new-cool-token');
     });
   });
 
