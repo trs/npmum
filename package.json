@@ -34,6 +34,10 @@
   },
   "eslintConfig": {
     "extends": "eslint:recommended",
+    "parserOptions": {
+      "ecmaVersion": "2017",
+      "sourceType": "module"
+    },
     "env": {
       "node": true,
       "jest": true,
@@ -41,7 +45,10 @@
     },
     "plugins": [
       "node"
-    ]
+    ],
+    "rules": {
+      "no-console": 0
+    }
   },
   "devDependencies": {
     "condition-circle": "^1.5.0",
