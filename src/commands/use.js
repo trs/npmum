@@ -1,7 +1,7 @@
 const fs = require('fs');
 const nodePath = require('path');
 const storage = require('../storage');
-const errors = require('../errors');
+const {handleError, UserNotFound, InvalidUserToken} = require('../errors');
 
 const NPMRC = '.npmrc';
 
@@ -10,14 +10,15 @@ const use = {
 
   _readNpmrc,
   _writeNpmrc,
-  _resolveNpmrcPath
+  _resolveNpmrcPath,
+  _getNpmrcText
 };
 
 function _readNpmrc(path) {
   return new Promise((resolve, reject) => {
     fs.readFile(path, (err, data) => {
-      if (err) return reject(err);
-      resolve(data);
+      if (err) reject(err);
+      else resolve(data);
     });
   })
   .then(text => text.toString());
@@ -26,8 +27,17 @@ function _readNpmrc(path) {
 function _writeNpmrc(path, text) {
   return new Promise((resolve, reject) => {
     fs.writeFile(path, text, err => {
-      if (err) return reject(err);
-      resolve();
+      if (err) reject(err);
+      else resolve();
+    });
+  });
+}
+
+function _existsNpmrc(path) {
+  return new Promise((resolve, reject) => {
+    fs.exists(path, (exists, err) => {
+      if (err) reject(err);
+      else resolve(exists);
     });
   });
 }
@@ -42,35 +52,46 @@ function _resolveNpmrcPath(options) {
   return nodePath.join(path, nodePath.sep, NPMRC);
 }
 
-function handle(name, options = {}) {
-  const user = storage.getUser(name);
-  const npmrcPath = _resolveNpmrcPath(options);
+async function _getNpmrcText(path) {
+  const exists = await _existsNpmrc(path);
+  if (exists) {
+    return await use._readNpmrc(path);
+  }
+  return null;
+}
 
-  return Promise.resolve()
-  .then(() => {
-    if (!user) throw new errors.UserNotFound(user);
-    if (!user.token) throw new errors.InvalidUserToken();
+function _replaceNpmrcText(text, {token, registry} = {}) {
+  registry = registry || storage.DEFAULT_REGISTRY;
 
-    if (!fs.existsSync(npmrcPath)) return '';
-    return use._readNpmrc(npmrcPath);
-  })
-  .then(text => {
-    const regexp = /(_authToken=)(.*)/i;
-    if (regexp.test(text)) {
-      const updateText = text.replace(regexp, `$1${user.token}`);
-      return updateText;
-    }
-
-    const setNewText = `//registry.npmjs.org/:_authToken=${user.token}`;
+  const regexp = /\/\/(.+)\/:_authToken=(.*)/i;
+  if (!text || !regexp.test(text)) {
+    const setNewText = `//${registry}/:_authToken=${token}`;
     return setNewText;
-  })
-  .then(text => use._writeNpmrc(npmrcPath, text))
-  .then(() => {
+  }
+
+  const updateText = text.replace(regexp, `//${registry}/:_authToken=${token}`);
+  return updateText;
+}
+
+async function handle(name, options = {}) {
+  try {
+    const user = storage.getUser(name);
+    const npmrcPath = _resolveNpmrcPath(options);
+
+    if (!user) throw new UserNotFound(user);
+    if (!user.token) throw new InvalidUserToken();
+
+    const currentText = await _getNpmrcText(npmrcPath);
+    const newText = _replaceNpmrcText(currentText, user);
+
+    await use._writeNpmrc(npmrcPath, newText);
     storage.setCurrentUser(name);
+
     console.log(`Using npm user token: "${name}"`);
     return true;
-  })
-  .catch(errors.handle);
+  } catch (err) {
+    return handleError(err);
+  }
 }
 
 module.exports = use;

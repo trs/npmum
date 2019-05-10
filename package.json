@@ -11,8 +11,8 @@
   "scripts": {
     "test": "NODE_ENV=test jest test/**/*.spec.js",
     "test:watch": "npm run test -- --watch",
-    "lint": "eslint -c ./.config/eslintrc.json \"src/**/*.js\" \"test/**/*.js\" \"bin/**/*.js\"",
-    "lint:fix": "eslint --fix -c ./.config/eslintrc.json \"src/**/*.js\" \"test/**/*.js\" \"bin/**/*.js\"",
+    "lint": "eslint \"src/**/*.js\" \"test/**/*.js\" \"bin/**/*.js\"",
+    "lint:fix": "npm run lint -- --fix",
     "commitmsg": "validate-commit-msg"
   },
   "release": {
@@ -29,17 +29,35 @@
   },
   "homepage": "https://github.com/trs/npmum#readme",
   "engines": {
-    "node": ">6",
-    "npm": ">3"
+    "node": ">8",
+    "npm": ">6"
+  },
+  "eslintConfig": {
+    "extends": "eslint:recommended",
+    "parserOptions": {
+      "ecmaVersion": "2017",
+      "sourceType": "module"
+    },
+    "env": {
+      "node": true,
+      "jest": true,
+      "es6": true
+    },
+    "plugins": [
+      "node"
+    ],
+    "rules": {
+      "no-console": 0
+    }
   },
   "devDependencies": {
     "condition-circle": "^1.5.0",
     "eslint": "^4.11.0",
     "eslint-plugin-node": "^5.2.1",
     "husky": "^0.14.3",
-    "jest": "^23.4.0",
+    "jest": "^24.8.0",
     "mock-stdin": "^0.3.1",
-    "semantic-release": "^15.4.1",
+    "semantic-release": "^15.13.13",
     "sinon": "^4.1.2",
     "validate-commit-msg": "^2.14.0"
   },

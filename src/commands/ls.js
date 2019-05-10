@@ -10,12 +10,14 @@ const ls = {
 function _mapUserTokens(users, currentUser) {
   return Object.keys(users).map(name => {
     const user = users[name];
+    const registry = user.registry || storage.DEFAULT_REGISTRY;
     const token = user.token;
     const censoredToken = token.length > 8 ? `...${token.substr(token.length - 8)}` : token;
 
     return {
       name,
       token: censoredToken,
+      registry,
       current: name === currentUser ? '\u2713' : ''
     };
   });

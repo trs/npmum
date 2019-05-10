@@ -3,8 +3,12 @@ const {name: packageName} = require('../package.json');
 const confName = `${packageName}${process.env.NODE_ENV !== 'test' ? '' : '-test'}`;
 const conf = new ConfigStore(confName);
 
+const DEFAULT_REGISTRY = 'registry.npmjs.org';
+
 const storage = {
   _path: conf.path,
+
+  DEFAULT_REGISTRY,
 
   getCurrentUser,
   setCurrentUser,
@@ -37,7 +41,9 @@ function getUser(name) {
 
 function addUser(name, data = {}) {
   const users = storage.getUsers();
-  // if (users[name]) return false;
+  if (!data.registry) {
+    data.registry = DEFAULT_REGISTRY;
+  }
 
   users[name] = data;
   storage.setUsers(users);

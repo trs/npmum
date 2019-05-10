@@ -29,7 +29,7 @@ describe('add', () => {
     .then(success => {
       expect(success).toBe(true);
       expect(storage.addUser.firstCall.args[0]).toBe('test');
-      expect(storage.addUser.firstCall.args[1]).toEqual({token: '123'});
+      expect(storage.addUser.firstCall.args[1]).toEqual({token: '123', registry: storage.DEFAULT_REGISTRY});
     });
   });
 
@@ -41,7 +41,7 @@ describe('add', () => {
     .then(success => {
       expect(success).toBe(true);
       expect(storage.addUser.firstCall.args[0]).toBe('test');
-      expect(storage.addUser.firstCall.args[1]).toEqual({token: '123'});
+      expect(storage.addUser.firstCall.args[1]).toEqual({token: '123', registry: storage.DEFAULT_REGISTRY});
     });
   });
 
@@ -53,7 +53,7 @@ describe('add', () => {
     .then(success => {
       expect(success).toBe(true);
       expect(storage.addUser.firstCall.args[0]).toBe('test');
-      expect(storage.addUser.firstCall.args[1]).toEqual({token: '123'});
+      expect(storage.addUser.firstCall.args[1]).toEqual({token: '123', registry: storage.DEFAULT_REGISTRY});
     });
   });
 

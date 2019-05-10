@@ -1,22 +1,30 @@
 const {prompt} = require('../prompt');
 const storage = require('../storage');
-const errors = require('../errors');
+const {handleError, UserAlreadyExists} = require('../errors');
 
 const add = {
   handle
 };
 
-function handle(name, options = {}) {
-  return Promise.resolve(options.token)
-  .then(token => {
+async function handle(name, options = {}) {
+  try {
     const user = storage.getUser(name);
-    if (user) throw new errors.UserAlreadyExists(name);
-    if (token) return token;
-    return prompt('Token:');
-  })
-  .then(token => storage.addUser(name, {token: token.trim()}))
-  .then(() => console.log(`User added: ${name}`) || true)
-  .catch(errors.handle);
+    if (user) throw new UserAlreadyExists(name);
+
+    if (!options.token) {
+      options.token = await prompt('Token:');
+    }
+    if (!options.registry) {
+      options.registry = storage.DEFAULT_REGISTRY;
+    }
+
+    storage.addUser(name, {token: options.token.trim(), registry: options.registry});
+    console.log(`User added: ${name}`);
+
+    return true;
+  } catch (err) {
+    return handleError(err);
+  }
 }
 
 module.exports = add;
