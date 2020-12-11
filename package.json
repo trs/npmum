@@ -57,7 +57,7 @@
     "husky": "^0.14.3",
     "jest": "^24.8.0",
     "mock-stdin": "^0.3.1",
-    "semantic-release": "^15.13.13",
+    "semantic-release": "^17.2.3",
     "sinon": "^4.1.2",
     "validate-commit-msg": "^2.14.0"
   },
